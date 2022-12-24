@@ -10,7 +10,7 @@ load_dotenv()
 # client = commands.Bot(command_prefix='$')
 client = discord.Client(intents=discord.Intents.all())
 
-# This function will be called every week to post the GIF
+# This function will be called every week (7 days) to post the GIF
 @tasks.loop(hours=168)
 async def post_gif(channel):
     # Send the GIF to the channel
@@ -19,8 +19,9 @@ async def post_gif(channel):
 # This function is called on request, will loop every minute and when the time is right, will start the post_gif task loop.
 @tasks.loop(minutes=1)
 async def set_time(channel):
+    # Check current time, and if it is past 19:15 on Friday, go ahead.
     dt = datetime.datetime.now()
-    if(dt.weekday() == 5 and dt.hour >= 19 and dt.minute >= 15):
+    if(dt.weekday() == 4 and dt.hour >= 19 and dt.minute >= 15):
         if not post_gif.is_running():
             post_gif.start(channel)
 
@@ -58,6 +59,8 @@ async def on_message(message):
             state = json.load(f)
             state['START_PROMPT_COUNT'] += 1
             first_prompt_time = datetime.datetime.strptime(state['FIRST_PROMPT_TIME'], "%Y-%m-%d %H:%M:%S")
+            
+            # If over 15 minutes since the last prompt, reset the prompt count.
             if(first_prompt_time + datetime.timedelta(minutes=15) < datetime.datetime.now()):
                 state['START_PROMPT_COUNT'] = 1
                 state['FIRST_PROMPT_TIME'] = datetime.datetime.strftime(datetime.datetime.now(), "%Y-%m-%d %H:%M:%S")
