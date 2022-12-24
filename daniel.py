@@ -28,6 +28,8 @@ async def set_time(channel):
 # When the bot is ready. Just a simple console message.
 @client.event
 async def on_ready():
+    if not os.path.exists('./server_states/'):
+        os.makedirs('./server_states/')
     print('We have logged in as {0.user}'.format(client))
 
 # When a message is sent in the server. Daniel will send the GIF in the channel the first 'Daniel start' message happened. 
@@ -43,7 +45,7 @@ async def on_message(message):
         # print("Is post_gif running?", "Yes" if post_gif.is_running() else "No")
         # print("Is set_time running?", "Yes" if set_time.is_running() else "No")
 
-        filename = message.guild.id
+        filename = './server_states/' + str(message.guild.id)
 
         # If bot is new to a server, create a .json file for that server with the default state.
         if not os.path.exists(str(filename) + '.json'):
