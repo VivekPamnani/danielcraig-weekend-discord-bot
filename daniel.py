@@ -76,19 +76,19 @@ async def on_message(message):
             await message.channel.send("Weekend is coming. Daniel is watching the clock.")
         # Else, have fun.
         else:
-            match state['START_PROMPT_COUNT']:
-                case 1:
-                    await message.channel.send("Weekend is coming. Daniel is watching the clock.")
-                case 2:
-                    await message.channel.send("Daniel is on a chair right in front of clock, don't worry.")
-                case 3:
-                    await message.channel.send("I know you're really excited for the weekend, but rest assured Daniel is watching the clock for you.")
-                case 4:
-                    await message.channel.send("Here's a <3 personally sent by Daniel himself, he's by the clock.")
-                case 5:
-                    await message.channel.send("Bored? Try chat.openai.com, go nuts!")
-                case default:
-                    await message.channel.send("I can't entertain you further, I'm sorry. :(")
+            count = state['START_PROMPT_COUNT']
+            if count == 1:
+                await message.channel.send("Weekend is coming. Daniel is watching the clock.")
+            elif count == 2:
+                await message.channel.send("Daniel is on a chair right in front of clock, don't worry.")
+            elif count == 3:
+                await message.channel.send("I know you're really excited for the weekend, but rest assured Daniel is watching the clock for you.")
+            elif count == 4:
+                await message.channel.send("Here's a <3 personally sent by Daniel himself, he's by the clock.")
+            elif count == 5:
+                await message.channel.send("Bored? Try chat.openai.com, go nuts!")
+            else:
+                await message.channel.send("I can't entertain you further, I'm sorry. :(")
 
         # If post_gif is already running, stop the set_time task.
         # There is a nuance here that if we invoke 'Daniel start' only once, the interpreter might reach here before the task has started (because it is async).
