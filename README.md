@@ -6,6 +6,10 @@ This is a Discord bot that sends the "weekend" GIF every Friday around 07:15 PM.
 ## Why did I make this?
 I.. don't know why. I make my weekends with it now though :)
 
+## Notes
+
+Currently there are bugs being addressed and the bot is not ready for hosting. It does not behave as intended when added to multiple servers.
+
 ## Okay, well how do I host it?
 
 Follow this guide to set up your Discord bot on the Discord Developer Portal: https://www.freecodecamp.org/news/create-a-discord-bot-with-python/

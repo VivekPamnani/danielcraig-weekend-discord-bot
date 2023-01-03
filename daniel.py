@@ -31,6 +31,9 @@ async def on_ready():
     if not os.path.exists('./server_states/'):
         os.makedirs('./server_states/')
     print('We have logged in as {0.user}'.format(client))
+    # Note that Discord bots cannot have custom statuses.
+    act = discord.Activity(type=discord.ActivityType.watching, name="the clock.")
+    await client.change_presence(status=discord.Status.online, activity=act)
 
 # When a message is sent in the server. Daniel will send the GIF in the channel the first 'Daniel start' message happened. 
 # The GIF channel can be changed by invoking 'Daniel stop' in the current channel followed by 'Daniel start' in the desired channel.
@@ -107,6 +110,10 @@ async def on_message(message):
             set_time.stop()
         if post_gif.is_running():
             post_gif.stop()
+
+    elif(message.content == 'Daniel report'):
+        await message.channel.send("set_time : " + ("Running" if set_time.is_running() else "Stopped"))
+        await message.channel.send("post_gif : " + ("Running" if post_gif.is_running() else "Stopped"))
 
 # Save your bot's API token in a .env file as "API_TOKEN=<your token>"
 client.run(os.environ.get('API_TOKEN'))
